@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# JetBrains IDE
+.idea/
+
 # dependencies
 node_modules/
 
