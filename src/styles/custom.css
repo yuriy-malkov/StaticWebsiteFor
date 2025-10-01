@@ -1,0 +1,74 @@
+/* Make the site title text black */
+a.site-title,
+a.site-title:visited,
+a.site-title:active {
+    color: #000 !important;
+    text-decoration: none;
+}
+
+/* (Optional) If you see it in the mobile header too */
+.sl-mobile-nav a.site-title {
+    color: #000 !important;
+}
+
+html, body { min-height: 100%; }
+
+body {
+    /* Swap these to taste */
+    background-image: url('/public/background.svg');
+    background-repeat: no-repeat;      /* or: repeat for a tile/pattern */
+    background-size: cover;            /* or: 1200px auto for fixed width art */
+    background-position: center top;   /* tweak for your artwork */
+    background-attachment: fixed;      /* parallax-y feel; remove if jittery on mobile */
+}
+
+/* Desktop header */
+header.header {
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+/* (Optional) even safer if it has the banner role */
+header.header[role="banner"] {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+
+/* Desktop sidebar */
+.sidebar-pane {
+    background: transparent !important;      /* or your color */
+    border-right: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+/* If inner content still has a fill */
+.sidebar-pane .sidebar-content,
+.sidebar-pane .group {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Optional: button-y Home link look (if you added one) */
+.sidebar-pane a[href="/"] {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Mobile drawer uses different containers */
+.sl-mobile-nav,
+.sl-mobile-nav .panel,
+.sl-mobile-nav .panel::before {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+
+
