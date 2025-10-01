@@ -70,5 +70,48 @@ header.header[role="banner"] {
     box-shadow: none !important;
 }
 
+/* ===== Brand palette ===== */
+:root {
+    --brand-brown:  #8B5E34; /* pick your exact brown */
+    --brand-green:  #2E7D32;
+    --brand-purple: #6A1B9A;
 
+    /* Map Starlight accents to your brand brown */
+    --sl-color-accent: var(--brand-brown);
+    --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 85%, black);
+    --sl-color-text-accent: var(--brand-brown);
+}
 
+/* Optional: tweak for dark mode so it’s not too loud */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --sl-color-accent: color-mix(in oklab, var(--brand-brown) 80%, white);
+        --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 65%, white);
+        --sl-color-text-accent: var(--sl-color-accent);
+    }
+}
+
+/* ===== Sidebar link states ===== */
+/* Active (current page) */
+.sidebar-pane a[aria-current="page"] {
+    color: var(--brand-brown) !important;
+    background: color-mix(in oklab, var(--brand-brown) 12%, transparent) !important;
+    border-left: 3px solid var(--brand-brown);
+}
+
+/* Hover – if you want a different hint color */
+.sidebar-pane a:hover {
+    color: var(--brand-green);
+}
+
+/* Focus ring tint (keyboard nav) */
+.sidebar-pane a:focus-visible {
+    outline: 2px solid var(--brand-purple);
+    outline-offset: 2px;
+}
+
+/* (Optional) TOC active link on the right column, if you use it */
+.sl-toc a[aria-current="true"],
+.sl-toc a[aria-current="location"] {
+    color: var(--brand-brown) !important;
+}
