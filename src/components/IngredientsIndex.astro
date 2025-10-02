@@ -1,0 +1,16 @@
+---
+const items = [
+    { label: 'Amaranth',  href: '/ingredients/amaranth/' },
+    { label: 'Barley',    href: '/ingredients/barley/' },
+    { label: 'Chia',      href: '/ingredients/chia/' },
+    { label: 'Flax',      href: '/ingredients/flax/' },
+    { label: 'Hemp',      href: '/ingredients/hemp/' },
+    { label: 'Oats',      href: '/ingredients/oats/' },
+    { label: 'Quinoa',    href: '/ingredients/quinoa/' },
+    { label: 'Sesame',    href: '/ingredients/sesame/' }
+];
+---
+
+<div class="ingredients-index" aria-label="Ingredients index">
+    {items.map(i => <a class="chip" href={i.href}>{i.label}</a>)}
+</div>
