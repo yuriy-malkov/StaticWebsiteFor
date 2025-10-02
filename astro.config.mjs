@@ -9,6 +9,7 @@ export default defineConfig({
             title: 'Grain Fusion Company',
             description: 'Simple, wholesome overnight oats.',
             pagefind: false,
+            tableOfContents: false,
             sidebar: [
                 { label: 'Home', link: '/' },
                 { label: 'Ingredients',

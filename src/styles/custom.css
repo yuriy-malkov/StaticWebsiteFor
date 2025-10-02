@@ -1,50 +1,69 @@
-/* Make the site title text black */
-a.site-title,
-a.site-title:visited,
-a.site-title:active {
-    color: #000 !important;
-    text-decoration: none;
-}
-
-/* (Optional) If you see it in the mobile header too */
-.sl-mobile-nav a.site-title {
-    color: #000 !important;
-}
-
+/* ===== Global basics ===== */
 html, body { min-height: 100%; }
-
 body {
-    /* Swap these to taste */
+    /* If the file is in /public, the URL is just /background.svg (not /public/…) */
     background-image: url('/public/background.svg');
-    background-repeat: no-repeat;      /* or: repeat for a tile/pattern */
-    background-size: cover;            /* or: 1200px auto for fixed width art */
-    background-position: center top;   /* tweak for your artwork */
-    background-attachment: fixed;      /* parallax-y feel; remove if jittery on mobile */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed; /* great on desktop… */
 }
 
-/* Desktop header */
-header.header {
-    background: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
+/* …but avoid fixed backgrounds on mobile (iOS jank) */
+@media (max-width: 768px) {
+    html, body { min-height: 100svh; } /* better viewport unit on mobile */
+    body {
+        background-attachment: scroll;
+        background-position: center top;
+    }
 }
 
-/* (Optional) even safer if it has the banner role */
+/* Keep content readable over the bg */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.92));
+    z-index: -1;
+}
+@media (prefers-color-scheme: dark) {
+    body::before { background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.6)); }
+}
+
+/* ===== Header ===== */
+header.header,
 header.header[role="banner"] {
     background: transparent !important;
     box-shadow: none !important;
 }
 
+/* Brand lockup (logo + name) */
+.sl-site-title.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    text-decoration: none;
+}
+.sl-site-title.brand img { height: 28px; width: auto; display: block; }
+.sl-site-title.brand .brand-name {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--brand-brown, #000);
+}
+@media (max-width: 480px) {
+    .sl-site-title.brand img { height: 24px; }
+    .sl-site-title.brand .brand-name { font-size: .95rem; }
+}
 
-/* Desktop sidebar */
+/* ===== Sidebar (desktop) ===== */
 .sidebar-pane {
-    background: transparent !important;      /* or your color */
+    background: transparent !important;
     border-right: 0 !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
 }
-
-/* If inner content still has a fill */
 .sidebar-pane .sidebar-content,
 .sidebar-pane .group {
     background: transparent !important;
@@ -52,37 +71,16 @@ header.header[role="banner"] {
     box-shadow: none !important;
 }
 
-/* Optional: button-y Home link look (if you added one) */
-.sidebar-pane a[href="/"] {
-    display: inline-block;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 0.5rem;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-/* Mobile drawer uses different containers */
-.sl-mobile-nav,
-.sl-mobile-nav .panel,
-.sl-mobile-nav .panel::before {
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-/* ===== Brand palette ===== */
+/* Active/hover colors (your brand) */
 :root {
-    --brand-brown:  #8B5E34; /* pick your exact brown */
+    --brand-brown:  #8B5E34;
     --brand-green:  #2E7D32;
     --brand-purple: #6A1B9A;
 
-    /* Map Starlight accents to your brand brown */
     --sl-color-accent: var(--brand-brown);
     --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 85%, black);
     --sl-color-text-accent: var(--brand-brown);
 }
-
-/* Optional: tweak for dark mode so it’s not too loud */
 @media (prefers-color-scheme: dark) {
     :root {
         --sl-color-accent: color-mix(in oklab, var(--brand-brown) 80%, white);
@@ -90,28 +88,53 @@ header.header[role="banner"] {
         --sl-color-text-accent: var(--sl-color-accent);
     }
 }
-
-/* ===== Sidebar link states ===== */
-/* Active (current page) */
 .sidebar-pane a[aria-current="page"] {
     color: var(--brand-brown) !important;
     background: color-mix(in oklab, var(--brand-brown) 12%, transparent) !important;
     border-left: 3px solid var(--brand-brown);
 }
-
-/* Hover – if you want a different hint color */
-.sidebar-pane a:hover {
-    color: var(--brand-green);
-}
-
-/* Focus ring tint (keyboard nav) */
+.sidebar-pane a:hover { color: var(--brand-green); }
 .sidebar-pane a:focus-visible {
     outline: 2px solid var(--brand-purple);
     outline-offset: 2px;
 }
 
-/* (Optional) TOC active link on the right column, if you use it */
-.sl-toc a[aria-current="true"],
-.sl-toc a[aria-current="location"] {
-    color: var(--brand-brown) !important;
+/* ===== Mobile drawer ===== */
+/* Full transparency can make nav illegible over the bg. Use a soft panel. */
+.sl-mobile-nav,
+.sl-mobile-nav .panel,
+.sl-mobile-nav .panel::before {
+    background: rgba(255,255,255,0.92) !important;
+    box-shadow: none !important;
+    border: 0 !important;
 }
+@media (prefers-color-scheme: dark) {
+    .sl-mobile-nav,
+    .sl-mobile-nav .panel,
+    .sl-mobile-nav .panel::before {
+        background: rgba(0,0,0,0.7) !important;
+    }
+}
+
+/* ===== Content layout + typography ===== */
+.sl-container { padding-inline: 1rem; }
+@media (min-width: 769px) { .sl-container { padding-inline: 2rem; } }
+
+.sl-content { background: transparent !important; }
+
+/* Headings scale down a touch on small screens */
+@media (max-width: 480px) {
+    .sl-content h1 { font-size: 1.6rem; }
+    .sl-content h2 { font-size: 1.3rem; }
+    .sl-content h3 { font-size: 1.15rem; }
+}
+
+/* Media & code responsiveness */
+img, video, svg { max-width: 100%; height: auto; }
+pre, code { overflow-x: auto; word-wrap: normal; }
+
+/* Links in header/title (keep black if you set it earlier) */
+a.site-title,
+a.site-title:visited,
+a.site-title:active { color: #000 !important; text-decoration: none; }
+.sl-mobile-nav a.site-title { color: #000 !important; }
