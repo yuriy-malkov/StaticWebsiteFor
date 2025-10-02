@@ -1,24 +1,27 @@
-/* ===== Global basics ===== */
+/* =========================
+   Global + Background
+   ========================= */
 html, body { min-height: 100%; }
+
 body {
-    /* If the file is in /public, the URL is just /background.svg (not /public/…) */
+    /* If the file is in /public, reference it as /background.svg */
     background-image: url('/public/background.svg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
-    background-attachment: fixed; /* great on desktop… */
+    background-attachment: fixed; /* desktop only; disabled on mobile below */
 }
 
-/* …but avoid fixed backgrounds on mobile (iOS jank) */
+/* Avoid fixed backgrounds on mobile (prevents iOS/Android jank) */
 @media (max-width: 768px) {
-    html, body { min-height: 100svh; } /* better viewport unit on mobile */
+    html, body { min-height: 100svh; }
     body {
         background-attachment: scroll;
         background-position: center top;
     }
 }
 
-/* Keep content readable over the bg */
+/* Soft overlay for readability over the background */
 body::before {
     content: "";
     position: fixed;
@@ -31,33 +34,104 @@ body::before {
     body::before { background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.6)); }
 }
 
-/* ===== Header ===== */
-header.header,
-header.header[role="banner"] {
-    background: transparent !important;
-    box-shadow: none !important;
+/* =========================
+   Brand palette / theme vars
+   ========================= */
+:root {
+    --brand-brown:  #8B5E34;
+    --brand-green:  #2E7D32;
+    --brand-purple: #6A1B9A;
+
+    /* Map Starlight accents to your brand */
+    --sl-color-accent: var(--brand-brown);
+    --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 85%, black);
+    --sl-color-text-accent: var(--brand-brown);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --sl-color-accent: color-mix(in oklab, var(--brand-brown) 80%, white);
+        --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 65%, white);
+        --sl-color-text-accent: var(--sl-color-accent);
+    }
 }
 
-/* Brand lockup (logo + name) */
-.sl-site-title.brand {
+/* =========================
+   Header (mobile vs desktop)
+   ========================= */
+/* MOBILE: header scrolls away with content */
+header.header,
+header.header[role="banner"],
+header.sl-nav {
+    position: relative;
+    top: auto;
+    z-index: 10;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    min-height: 56px; /* ensure room for the logo */
+}
+
+/* DESKTOP: header fixed; content scrolls under it */
+@media (min-width: 769px) {
+    header.header,
+    header.header[role="banner"],
+    header.sl-nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 2000; /* above everything else */
+        width: 100%;
+    }
+
+    :root { --header-h: 56px; }            /* adjust to your actual header height */
+    main, .sl-container, .sl-content {      /* push page down under fixed header */
+        padding-top: var(--header-h);
+    }
+}
+
+/* Center the site title / logo block */
+header .sl-site-title.brand {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    margin: 0;
+    z-index: 1500;
     display: inline-flex;
     align-items: center;
     gap: .5rem;
     text-decoration: none;
 }
-.sl-site-title.brand img { height: 28px; width: auto; display: block; }
-.sl-site-title.brand .brand-name {
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1;
-    color: var(--brand-brown, #000);
+header .sl-site-title.brand img {
+    height: 40px; /* tweak as desired */
+    width: auto;
+    display: block;
 }
 @media (max-width: 480px) {
-    .sl-site-title.brand img { height: 24px; }
-    .sl-site-title.brand .brand-name { font-size: .95rem; }
+    header .sl-site-title.brand img { height: 32px; }
 }
 
-/* ===== Sidebar (desktop) ===== */
+/* Header title link color (if shown as text anywhere) */
+a.site-title,
+a.site-title:visited,
+a.site-title:active { color: #000 !important; text-decoration: none; }
+
+/* =========================
+   Hide mobile hamburger + drawer
+   ========================= */
+header button[aria-label="Menu"],
+button[aria-controls="starlight__sidebar"],
+button[aria-label="Open menu"],
+button[aria-label="Close menu"],
+.sl-nav-toggle,
+summary.sl-nav-toggle {
+    display: none !important;
+}
+/* Also ensure the mobile drawer cannot appear */
+.sl-mobile-nav { display: none !important; }
+
+/* =========================
+   Sidebar (desktop)
+   ========================= */
 .sidebar-pane {
     background: transparent !important;
     border-right: 0 !important;
@@ -71,23 +145,7 @@ header.header[role="banner"] {
     box-shadow: none !important;
 }
 
-/* Active/hover colors (your brand) */
-:root {
-    --brand-brown:  #8B5E34;
-    --brand-green:  #2E7D32;
-    --brand-purple: #6A1B9A;
-
-    --sl-color-accent: var(--brand-brown);
-    --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 85%, black);
-    --sl-color-text-accent: var(--brand-brown);
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --sl-color-accent: color-mix(in oklab, var(--brand-brown) 80%, white);
-        --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 65%, white);
-        --sl-color-text-accent: var(--sl-color-accent);
-    }
-}
+/* Active/hover states in sidebar */
 .sidebar-pane a[aria-current="page"] {
     color: var(--brand-brown) !important;
     background: color-mix(in oklab, var(--brand-brown) 12%, transparent) !important;
@@ -99,30 +157,15 @@ header.header[role="banner"] {
     outline-offset: 2px;
 }
 
-/* ===== Mobile drawer ===== */
-/* Full transparency can make nav illegible over the bg. Use a soft panel. */
-.sl-mobile-nav,
-.sl-mobile-nav .panel,
-.sl-mobile-nav .panel::before {
-    background: rgba(255,255,255,0.92) !important;
-    box-shadow: none !important;
-    border: 0 !important;
-}
-@media (prefers-color-scheme: dark) {
-    .sl-mobile-nav,
-    .sl-mobile-nav .panel,
-    .sl-mobile-nav .panel::before {
-        background: rgba(0,0,0,0.7) !important;
-    }
-}
-
-/* ===== Content layout + typography ===== */
+/* =========================
+   Content layout + typography
+   ========================= */
 .sl-container { padding-inline: 1rem; }
 @media (min-width: 769px) { .sl-container { padding-inline: 2rem; } }
 
 .sl-content { background: transparent !important; }
 
-/* Headings scale down a touch on small screens */
+/* Headings a bit smaller on very small phones */
 @media (max-width: 480px) {
     .sl-content h1 { font-size: 1.6rem; }
     .sl-content h2 { font-size: 1.3rem; }
@@ -133,70 +176,26 @@ header.header[role="banner"] {
 img, video, svg { max-width: 100%; height: auto; }
 pre, code { overflow-x: auto; word-wrap: normal; }
 
-/* Links in header/title (keep black if you set it earlier) */
-a.site-title,
-a.site-title:visited,
-a.site-title:active { color: #000 !important; text-decoration: none; }
-.sl-mobile-nav a.site-title { color: #000 !important; }
+/* Ensure page content sits under header in stacking order */
+main, .sl-container, .sl-content {
+    position: relative;
+    z-index: 1; /* lower than header (2000) on desktop */
+}
 
 /* =========================
-   Mobile nav (hamburger)
+   Ingredients index chips
    ========================= */
-.sl-mobile-nav {
-    /* Scrim behind the drawer so the page dims */
-    position: fixed;            /* ensure it covers the viewport */
-    inset: 0;
-    background: rgba(0,0,0,0.35) !important;  /* dim the page behind */
-    z-index: 1000;              /* make sure it floats above content */
-}
-
-/* The slide-out panel itself */
-.sl-mobile-nav .panel {
-    background: rgba(255,255,255,0.95) !important;  /* solid, high-contrast */
-    backdrop-filter: blur(4px);
-    color: #111;                                     /* text readable on light bg */
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
-    border: 0 !important;
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-    .sl-mobile-nav {
-        background: rgba(0,0,0,0.55) !important;
-    }
-    .sl-mobile-nav .panel {
-        background: rgba(20,20,20,0.95) !important;
-        color: #eee;
-    }
-}
-
-/* Links inside the drawer */
-.sl-mobile-nav a {
-    color: var(--sl-color-text) !important;          /* inherit your themed text color */
-    text-decoration: none;
-}
-.sl-mobile-nav a[aria-current="page"] {
-    color: var(--brand-brown, #8B5E34) !important;
-    background: color-mix(in oklab, var(--brand-brown, #8B5E34) 12%, transparent) !important;
-    border-left: 3px solid var(--brand-brown, #8B5E34);
-}
-
-/* Keep the site title readable in the drawer header */
-.sl-mobile-nav a.site-title { color: #000 !important; }
-@media (prefers-color-scheme: dark) {
-    .sl-mobile-nav a.site-title { color: #fff !important; }
-}
-
-/* Ingredients index: single column, spaced rows */
 .ingredients-index {
     display: grid;
-    grid-template-columns: 1fr;  /* single column */
-    gap: 0.5rem;                 /* space between rows */
+    grid-template-columns: 1fr;   /* single column by default */
+    gap: 0.5rem;
     margin: 0.75rem 0 1rem;
 }
-
+@media (min-width: 480px) {
+    .ingredients-index { grid-template-columns: 1fr 1fr; }
+}
 .ingredients-index .chip {
-    display: block;              /* make each link its own row */
+    display: block;
     padding: 0.45rem 0.75rem;
     border-radius: 0.6rem;
     border: 1px solid rgba(0,0,0,0.12);
@@ -205,168 +204,244 @@ a.site-title:active { color: #000 !important; text-decoration: none; }
     background: rgba(255,255,255,0.85);
     color: var(--sl-color-text);
 }
-
 .ingredients-index .chip:hover {
-    color: var(--brand-brown, #8B5E34);
+    color: var(--brand-brown);
     border-color: rgba(0,0,0,0.2);
 }
 
-
-@media (min-width: 480px) {
-    .ingredients-index { grid-template-columns: 1fr 1fr; }
+/*FIXING LOGO*/
+/* --- Logo + header sizing variables --- */
+:root {
+    --logo-h-mobile: 56px;   /* was 40px — raise for phones */
+    --logo-h-desktop: 80px;  /* your requested size */
+    --header-h-mobile: 68px; /* >= logo height with some breathing room */
+    --header-h-desktop: 96px;/* >= desktop logo height */
 }
 
-/* Hide mobile menu toggle */
-button[aria-label="Open menu"],
-button[aria-label="Close menu"],
-.sl-nav-toggle {
-    display: none !important;
-}
-
-/* Keep header pinned above content; content scrolls underneath */
-header.header,
-header.header[role="banner"] {
-    position: sticky;   /* or: fixed; if you want it always visible */
-    top: 0;
-    z-index: 1000;      /* above the page content */
-    background: transparent !important; /* keep your transparent style */
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-}
-
-/* Ensure main content sits below the header in stacking */
-.sl-container,
-.sl-content,
-main {
-    position: relative;
-    z-index: 1;
-}
-
-:root { --header-h: 56px; }            /* measure your header height */
-main { padding-top: var(--header-h); }  /* only needed for fixed, not sticky */
-
-/* ---- Correct bg URL (file in /public): ---- */
-body {
-    background-image: url('/background.svg'); /* not /public/background.svg */
-}
-
-/* ---- Header behavior ---- */
-
-/* Default: MOBILE (scrolls away with content) */
+/* Header is the positioning context for the centered logo */
 header.header,
 header.header[role="banner"],
 header.sl-nav {
-    position: relative;      /* normal flow on mobile */
-    top: auto;
-    z-index: 10;             /* above content but no overlay issues */
-    background: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
+    position: relative;
+    min-height: var(--header-h-mobile);
+    overflow: visible;            /* don’t clip taller logo */
 }
 
-/* DESKTOP: keep header fixed so content slides under it */
+/* Centered logo block */
+header .sl-site-title.brand {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    margin: 0;
+    z-index: 1500;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    text-decoration: none;
+}
+
+/* Logo sizing */
+header .sl-site-title.brand img {
+    height: var(--logo-h-mobile);
+    width: auto;
+    display: block;
+}
+
+/* Desktop: fixed header + matching content offset */
 @media (min-width: 769px) {
     header.header,
     header.header[role="banner"],
     header.sl-nav {
         position: fixed;
-        top: 0;
-        left: 0; right: 0;
-        z-index: 2000;         /* ensure it’s above everything */
-        width: 100%;
+        top: 0; left: 0; right: 0;
+        z-index: 2000;
+        min-height: var(--header-h-desktop);
     }
 
-    /* Measure your header (adjust if needed) */
-    :root { --header-h: 56px; }
-
-    /* Push main content down so first line isn't hidden by fixed header */
+    /* push content below the taller fixed header */
     main, .sl-container, .sl-content {
-        padding-top: var(--header-h);
+        padding-top: calc(var(--header-h-desktop) - 80px);
+    }
+
+    /* bigger logo on desktop */
+    header .sl-site-title.brand img {
+        height: var(--logo-h-desktop);
     }
 }
 
-/* Ensure page content sits under the header in stacking */
-main, .sl-container, .sl-content {
-    position: relative;
-    z-index: 1;            /* lower than header's 2000 on desktop */
+/* Tighten the very first heading on a page */
+.sl-content > :is(h1,h2):first-child {
+    margin-top: 0.25rem;  /* was ~1–2rem by default */
 }
 
-/* If anything still draws over the header, force it down */
-*[style*="z-index"],
-code, pre {
-    z-index: 1 !important; /* safety net vs. rogue high z-index children */
+/* If your pages start with MDX content blocks, also normalize */
+.sl-content > :first-child {
+    margin-top: 0.25rem;
 }
 
-/* ---- Hide the hamburger everywhere (since you don’t need it) ---- */
-button[aria-label="Open menu"],
-button[aria-label="Close menu"],
-.sl-nav-toggle {
+/* ===== Desktop: header fixed OVER content (content scrolls UNDER) ===== */
+@media (min-width: 769px) {
+    :root {
+        --header-h-desktop: 96px;      /* adjust to your actual header height */
+        --z-header: 999999;            /* very high to beat any rogue elements */
+    }
+
+    /* Make header fixed and in its own stacking context */
+    header.header,
+    header.header[role="banner"],
+    header.sl-nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        width: 100%;
+        z-index: var(--z-header);
+        isolation: isolate;            /* creates a new stacking context for safety */
+        background: transparent !important;
+        box-shadow: none !important;
+        min-height: var(--header-h-desktop);
+        overflow: visible;             /* don’t clip a tall logo */
+    }
+
+    /* Only offset ONCE: push main content down under the fixed header */
+    main {
+        padding-top: var(--header-h-desktop);
+    }
+
+    /* Ensure content can’t rise above the header */
+    main, .sl-container, .sl-content {
+        position: relative;
+        z-index: 1;                    /* lower than header */
+    }
+
+    /* If any element still overlaps, it likely has an explicit high z-index.
+       Nudge common offenders down without breaking layout: */
+    .sl-content *[style*="z-index"],
+    .sl-content [class*="sticky"],
+    .sl-content pre, .sl-content code {
+        z-index: 1 !important;
+    }
+}
+
+/* =========================
+   MOBILE header sizing & top gap
+   ========================= */
+@media (max-width: 768px) {
+    :root{
+        /* Tune these two to change header + logo size on phones */
+        --header-h-mobile: 82px;   /* overall header height */
+        --logo-h-mobile:   66px;   /* logo image height */
+
+        /* Extra space between header and first row of content */
+        --mobile-top-gap:  6px;    /* increase/decrease to taste */
+    }
+
+    /* Header block (mobile scrolls away with content) */
+    header.header,
+    header.header[role="banner"],
+    header.sl-nav {
+        position: relative;             /* not fixed on mobile */
+        min-height: var(--header-h-mobile);
+        background: transparent !important;
+        box-shadow: none !important;
+        overflow: visible;              /* prevent logo clipping */
+    }
+
+    /* Centered logo size on mobile */
+    header .sl-site-title.brand img {
+        height: var(--logo-h-mobile);
+        width: auto;
+    }
+
+    /* Make sure no desktop offset bleeds into mobile */
+    main { padding-top: 0; }
+
+    /* Tighten the first element/heading at the top of the page */
+    .sl-content > :first-child { margin-top: var(--mobile-top-gap); }
+    .sl-content > :is(h1,h2):first-child { margin-top: var(--mobile-top-gap); }
+}
+
+/* Mobile: control the gap between header and first row */
+@media (max-width: 768px) {
+    .main-frame { padding-top: 8px; } /* tweak to taste */
+}
+
+/* Desktop: avoid double-offset if you’re already padding <main> */
+@media (min-width: 769px) {
+    .main-frame { padding-top: 0; }
+}
+
+/*FIXING DESKTOP NOW*/
+/* =========================
+   Desktop offsets (header, main, sidebar)
+   ========================= */
+@media (min-width: 769px) {
+    /* 1) Make sure this matches your actual fixed header height */
+    :root {
+        --header-h-desktop: 96px;     /* tweak to your header/logo size */
+        --desktop-gap: -30px;           /* extra breathing room if you want */
+    }
+
+    /* 2) Only offset the page ONCE: push main below the fixed header */
+    main {
+        padding-top: calc(var(--header-h-desktop) + var(--desktop-gap)) !important;
+    }
+
+    /* Remove any other top offsets that might double-pad the page */
+    .sl-container,
+    .sl-content,
+    .main-frame { padding-top: 10px !important; }
+
+    /* 3) Start the sidebar below the header */
+    /* If your build uses the aside+classes below, these catch them all */
+    aside[aria-label="Sidebar"],
+    .starlight__sidebar,
+    .sidebar-pane {
+        /* If your sidebar is in normal flow (most Starlight setups): */
+        margin-top: calc(var(--header-h-desktop) + var(--desktop-gap));
+    }
+
+    /* If your sidebar is sticky, set its sticky top to the header height.
+       (Safe to keep even if it isn't sticky; it only applies when sticky.) */
+    .starlight__sidebar,
+    .sidebar-pane {
+        top: calc(var(--header-h-desktop) + var(--desktop-gap));
+    }
+
+    /* Optional: tell Starlight's own layout vars your header height */
+    :root { --sl-nav-height: var(--header-h-desktop); }
+}
+
+/* Only hide the H1 when the page includes the data-hide-title marker */
+main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > h1:first-child {
     display: none !important;
 }
 
-
-/* Hide the hamburger in all variants (button or summary) */
-summary.sl-nav-toggle,
-button.sl-nav-toggle,
-header .sl-nav-toggle,
-button[aria-label="Open menu"],
-button[aria-label="Close menu"],
-.sl-nav-toggle {
-    display: none !important;
+/* Tighten spacing when hidden */
+main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-child {
+    margin-top: 0.25rem;
 }
 
-/* Belt-and-suspenders: remove the mobile drawer entirely */
-.sl-mobile-nav {
-    display: none !important;
+
+/*SOLID HEADER*/
+/* Desktop: make the fixed header opaque so content is hidden underneath */
+@media (min-width: 769px) {
+    header.header,
+    header.header[role="banner"],
+    header.sl-nav {
+        background: rgba(255, 255, 255, 0.98) !important; /* solid/light bg */
+        backdrop-filter: blur(6px);                        /* optional: frosted look */
+        -webkit-backdrop-filter: blur(6px);
+        isolation: isolate;                                /* keep it on top */
+        z-index: 999999;                                   /* ensure top layer */
+    }
+
+    /* Dark mode variant */
+    @media (prefers-color-scheme: dark) {
+        header.header,
+        header.header[role="banner"],
+        header.sl-nav {
+            background: rgba(16, 16, 16, 0.98) !important;
+        }
+    }
 }
-
-/* Hide the hamburger ("Menu") button on mobile */
-header button[aria-label="Menu"],
-button[aria-controls="starlight__sidebar"],
-button .open-menu,
-button .close-menu {
-    display: none !important;
-}
-
-/* Safety: hide any other mobile toggle variants */
-.sl-nav-toggle,
-summary.sl-nav-toggle {
-    display: none !important;
-}
-
-/* If Starlight still mounts the mobile drawer, nuke it too */
-.sl-mobile-nav { display: none !important; }
-
-/* Make header a positioning context */
-header.header,
-header.header[role="banner"],
-header.sl-nav {
-    position: relative; /* already set in your mobile styles; safe to repeat */
-    min-height: 56px;   /* keep enough height so the logo fits nicely */
-}
-
-/* Center the site title / logo horizontally, independent of left/right slots */
-header .sl-site-title.brand {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 50%;                 /* vertical centering inside header */
-    transform-origin: center;
-    translate: -50% -50%;     /* shorthand for center/center */
-    margin: 0;                /* remove any accidental margins */
-    z-index: 1500;            /* above background but below menus if any */
-}
-
-/* Keep the logo image sizing consistent */
-header .sl-site-title.brand img {
-    height: 28px;
-    width: auto;
-    display: block;
-}
-
-/* Mobile tweaks: slightly smaller logo if needed */
-@media (max-width: 480px) {
-    header .sl-site-title.brand img { height: 24px; }
-}
-
 
