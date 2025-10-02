@@ -138,3 +138,235 @@ a.site-title,
 a.site-title:visited,
 a.site-title:active { color: #000 !important; text-decoration: none; }
 .sl-mobile-nav a.site-title { color: #000 !important; }
+
+/* =========================
+   Mobile nav (hamburger)
+   ========================= */
+.sl-mobile-nav {
+    /* Scrim behind the drawer so the page dims */
+    position: fixed;            /* ensure it covers the viewport */
+    inset: 0;
+    background: rgba(0,0,0,0.35) !important;  /* dim the page behind */
+    z-index: 1000;              /* make sure it floats above content */
+}
+
+/* The slide-out panel itself */
+.sl-mobile-nav .panel {
+    background: rgba(255,255,255,0.95) !important;  /* solid, high-contrast */
+    backdrop-filter: blur(4px);
+    color: #111;                                     /* text readable on light bg */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
+    border: 0 !important;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .sl-mobile-nav {
+        background: rgba(0,0,0,0.55) !important;
+    }
+    .sl-mobile-nav .panel {
+        background: rgba(20,20,20,0.95) !important;
+        color: #eee;
+    }
+}
+
+/* Links inside the drawer */
+.sl-mobile-nav a {
+    color: var(--sl-color-text) !important;          /* inherit your themed text color */
+    text-decoration: none;
+}
+.sl-mobile-nav a[aria-current="page"] {
+    color: var(--brand-brown, #8B5E34) !important;
+    background: color-mix(in oklab, var(--brand-brown, #8B5E34) 12%, transparent) !important;
+    border-left: 3px solid var(--brand-brown, #8B5E34);
+}
+
+/* Keep the site title readable in the drawer header */
+.sl-mobile-nav a.site-title { color: #000 !important; }
+@media (prefers-color-scheme: dark) {
+    .sl-mobile-nav a.site-title { color: #fff !important; }
+}
+
+/* Ingredients index: single column, spaced rows */
+.ingredients-index {
+    display: grid;
+    grid-template-columns: 1fr;  /* single column */
+    gap: 0.5rem;                 /* space between rows */
+    margin: 0.75rem 0 1rem;
+}
+
+.ingredients-index .chip {
+    display: block;              /* make each link its own row */
+    padding: 0.45rem 0.75rem;
+    border-radius: 0.6rem;
+    border: 1px solid rgba(0,0,0,0.12);
+    text-decoration: none;
+    font-weight: 600;
+    background: rgba(255,255,255,0.85);
+    color: var(--sl-color-text);
+}
+
+.ingredients-index .chip:hover {
+    color: var(--brand-brown, #8B5E34);
+    border-color: rgba(0,0,0,0.2);
+}
+
+
+@media (min-width: 480px) {
+    .ingredients-index { grid-template-columns: 1fr 1fr; }
+}
+
+/* Hide mobile menu toggle */
+button[aria-label="Open menu"],
+button[aria-label="Close menu"],
+.sl-nav-toggle {
+    display: none !important;
+}
+
+/* Keep header pinned above content; content scrolls underneath */
+header.header,
+header.header[role="banner"] {
+    position: sticky;   /* or: fixed; if you want it always visible */
+    top: 0;
+    z-index: 1000;      /* above the page content */
+    background: transparent !important; /* keep your transparent style */
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Ensure main content sits below the header in stacking */
+.sl-container,
+.sl-content,
+main {
+    position: relative;
+    z-index: 1;
+}
+
+:root { --header-h: 56px; }            /* measure your header height */
+main { padding-top: var(--header-h); }  /* only needed for fixed, not sticky */
+
+/* ---- Correct bg URL (file in /public): ---- */
+body {
+    background-image: url('/background.svg'); /* not /public/background.svg */
+}
+
+/* ---- Header behavior ---- */
+
+/* Default: MOBILE (scrolls away with content) */
+header.header,
+header.header[role="banner"],
+header.sl-nav {
+    position: relative;      /* normal flow on mobile */
+    top: auto;
+    z-index: 10;             /* above content but no overlay issues */
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+/* DESKTOP: keep header fixed so content slides under it */
+@media (min-width: 769px) {
+    header.header,
+    header.header[role="banner"],
+    header.sl-nav {
+        position: fixed;
+        top: 0;
+        left: 0; right: 0;
+        z-index: 2000;         /* ensure it’s above everything */
+        width: 100%;
+    }
+
+    /* Measure your header (adjust if needed) */
+    :root { --header-h: 56px; }
+
+    /* Push main content down so first line isn't hidden by fixed header */
+    main, .sl-container, .sl-content {
+        padding-top: var(--header-h);
+    }
+}
+
+/* Ensure page content sits under the header in stacking */
+main, .sl-container, .sl-content {
+    position: relative;
+    z-index: 1;            /* lower than header's 2000 on desktop */
+}
+
+/* If anything still draws over the header, force it down */
+*[style*="z-index"],
+code, pre {
+    z-index: 1 !important; /* safety net vs. rogue high z-index children */
+}
+
+/* ---- Hide the hamburger everywhere (since you don’t need it) ---- */
+button[aria-label="Open menu"],
+button[aria-label="Close menu"],
+.sl-nav-toggle {
+    display: none !important;
+}
+
+
+/* Hide the hamburger in all variants (button or summary) */
+summary.sl-nav-toggle,
+button.sl-nav-toggle,
+header .sl-nav-toggle,
+button[aria-label="Open menu"],
+button[aria-label="Close menu"],
+.sl-nav-toggle {
+    display: none !important;
+}
+
+/* Belt-and-suspenders: remove the mobile drawer entirely */
+.sl-mobile-nav {
+    display: none !important;
+}
+
+/* Hide the hamburger ("Menu") button on mobile */
+header button[aria-label="Menu"],
+button[aria-controls="starlight__sidebar"],
+button .open-menu,
+button .close-menu {
+    display: none !important;
+}
+
+/* Safety: hide any other mobile toggle variants */
+.sl-nav-toggle,
+summary.sl-nav-toggle {
+    display: none !important;
+}
+
+/* If Starlight still mounts the mobile drawer, nuke it too */
+.sl-mobile-nav { display: none !important; }
+
+/* Make header a positioning context */
+header.header,
+header.header[role="banner"],
+header.sl-nav {
+    position: relative; /* already set in your mobile styles; safe to repeat */
+    min-height: 56px;   /* keep enough height so the logo fits nicely */
+}
+
+/* Center the site title / logo horizontally, independent of left/right slots */
+header .sl-site-title.brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;                 /* vertical centering inside header */
+    transform-origin: center;
+    translate: -50% -50%;     /* shorthand for center/center */
+    margin: 0;                /* remove any accidental margins */
+    z-index: 1500;            /* above background but below menus if any */
+}
+
+/* Keep the logo image sizing consistent */
+header .sl-site-title.brand img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+/* Mobile tweaks: slightly smaller logo if needed */
+@media (max-width: 480px) {
+    header .sl-site-title.brand img { height: 24px; }
+}
+
+
