@@ -1,0 +1,54 @@
+---
+/** Mobile-only accordion that renders ingredient pages inline (no navigation). */
+/** This version uses Astro.glob() so you get Content + frontmatter directly. */
+
+const modules = await Astro.glob('/src/content/docs/ingredients/*.{md,mdx}');
+
+/** Build items, skip the list page, sort by title. */
+const items = modules
+    .filter((m) => !/\/list\.(md|mdx)$/.test(m.file))
+    .map((m) => ({
+        label: m.frontmatter?.title ?? m.file.split('/').pop()?.replace(/\.(md|mdx)$/,''),
+        Content: m.Content,
+    }))
+    .sort((a, b) => (a.label ?? '').localeCompare(b.label ?? ''));
+---
+
+<div class="ingredients-accordion" data-mobile>
+    {items.map(({ label, Content }, idx) => (
+            <details class="ing-item">
+                <summary>{label}</summary>
+                <div class="ing-body">
+                    <Content />
+                </div>
+            </details>
+    ))}
+</div>
+
+<style>
+    /* Mobile only */
+    @media (min-width: 769px) { .ingredients-accordion { display: none; } }
+
+    .ingredients-accordion { display: grid; gap: .5rem; margin: .75rem 0 1rem; }
+
+    .ingredients-accordion .ing-item summary {
+        cursor: pointer; list-style: none;
+        padding: .6rem .8rem;
+        border: 1px solid rgba(0,0,0,.12);
+        border-radius: .6rem; font-weight: 700;
+        background: rgba(255,255,255,.9);
+    }
+    .ingredients-accordion .ing-item[open] summary {
+        border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+        background: rgba(255,255,255,.95);
+    }
+
+    .ingredients-accordion .ing-body {
+        border: 1px solid rgba(0,0,0,.12); border-top: 0;
+        border-bottom-left-radius: .6rem; border-bottom-right-radius: .6rem;
+        padding: .75rem .9rem; background: rgba(255,255,255,.85);
+    }
+
+    /* Hide the H1 that comes from each ingredient page body inside accordion */
+    .ingredients-accordion .ing-body h1:first-of-type { display: none; }
+</style>
