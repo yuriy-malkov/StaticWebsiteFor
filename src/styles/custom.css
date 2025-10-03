@@ -445,3 +445,155 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     }
 }
 
+/* ============ Mobile: center the hamburger inside <nav.sidebar> ============ */
+@media (max-width: 768px) {
+    :root {
+        /* set these once so nav + header are the same height */
+        --header-h-mobile: 0px;   /* adjust to your design */
+        --hamburger-right: 12px;    /* distance from left edge */
+    }
+
+    /* Make nav a positioning context & match header height */
+    nav.sidebar {
+        position: relative;
+        min-height: var(--header-h-mobile);
+    }
+
+    /* Vertically center the button within nav */
+    nav.sidebar starlight-menu-button > button[aria-label="Menu"][aria-controls="starlight__sidebar"] {
+        position: absolute !important;
+        right: var(--hamburger-right);
+        top: 50%;
+        transform: translateY(-50%);
+        height: 44px; width: 44px;                 /* comfy tap target */
+        display: inline-flex !important;
+        align-items: center; justify-content: center;
+        margin: 0; padding: 0;
+        z-index: 1600;
+    }
+
+    /* Keep the SVGs centered in the button */
+    nav.sidebar starlight-menu-button > button svg { display: block; }
+}
+
+/* =========================
+   Keep hamburger hidden on DESKTOP
+   ========================= */
+@media (min-width: 769px) {
+    header button[aria-label="Menu"],
+    button[aria-controls="starlight__sidebar"],
+    .sl-nav-toggle,
+    summary.sl-nav-toggle,
+    .sl-mobile-nav {
+        display: none !important;
+    }
+}
+
+
+/* Show only the correct icon on the mobile menu button */
+@media (max-width: 768px) {
+    /* default (menu closed) → show hamburger, hide X */
+    nav.sidebar starlight-menu-button > button .open-menu { display: inline-block; }
+    nav.sidebar starlight-menu-button > button .close-menu { display: none; }
+
+    /* when menu is open (aria-expanded=true) → show X, hide hamburger */
+    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .open-menu { display: none; }
+    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .close-menu { display: inline-block; }
+
+    /* optional: consistent sizing & touch target */
+    nav.sidebar starlight-menu-button > button svg { width: 24px; height: 24px; }
+    nav.sidebar starlight-menu-button > button {
+        color: currentColor;           /* inherits header/nav color */
+        background: transparent;
+        border: 0;
+    }
+}
+
+
+/* =========================
+   MOBILE: keep header & nav same height + center logo
+   ========================= */
+@media (max-width: 768px) {
+    :root{
+        --header-h-mobile: 82px;   /* ← make this tall enough for your logo */
+        --logo-h-mobile:   64px;   /* logo image height on phones */
+        --hamburger-h-mobile: -150px;
+    }
+
+    /* Header row sizing + no clipping */
+    header.header,
+    header.header[role="banner"],
+    header.sl-nav {
+        position: relative;
+        min-height: var(--header-h-mobile);
+        overflow: visible;               /* prevent top/bottom clipping */
+    }
+
+    /* Center the logo block vertically in the header */
+    header .sl-site-title.brand {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        margin: 0;
+    }
+
+    /* Logo size */
+    header .sl-site-title.brand img {
+        height: var(--logo-h-mobile);
+        width: auto;
+        display: block;
+    }
+
+    /* Make the <nav class="sidebar"> row match the header height */
+    nav.sidebar {
+        position: relative;
+        min-height: var(--header-h-mobile);
+    }
+
+    /* Your hamburger centering can stay; just ensure it stays within this height */
+    nav.sidebar starlight-menu-button > button[aria-label="Menu"][aria-controls="starlight__sidebar"] {
+        height: 44px; width: 44px; /* comfy tap target within the header height */
+        top: -40px;
+    }
+}
+
+/* ============ Mobile: slide-down sidebar that pushes content ============ */
+@media (max-width: 768px) {
+    nav.sidebar { position: relative; min-height: var(--header-h-mobile, 72px); }
+
+    /* Sidebar pane lives in normal flow (not overlay) and is collapsed by default */
+    nav.sidebar #starlight__sidebar {
+        position: static !important;
+        width: 100%;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 220ms ease;
+        background: rgba(255,255,255,0.98);
+        border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    @media (prefers-color-scheme: dark) {
+        nav.sidebar #starlight__sidebar {
+            background: rgba(16,16,16,0.98);
+            border-top-color: rgba(255,255,255,0.08);
+        }
+    }
+
+    /* ✅ When the custom element is expanded… (script tag between, so use ~) */
+    nav.sidebar starlight-menu-button[aria-expanded="true"] ~ #starlight__sidebar {
+        max-height: 80vh;     /* pushes .main-frame down */
+        overflow: auto;
+    }
+
+    /* ✅ Fallback: if only the inner <button> toggles aria-expanded */
+    nav.sidebar starlight-menu-button:has(> button[aria-expanded="true"]) ~ #starlight__sidebar {
+        max-height: 80vh;
+        overflow: auto;
+    }
+
+    /* Optional spacing inside the expanded menu */
+    #starlight__sidebar .sidebar-content { padding-block: .5rem .75rem; }
+
+    /* Keep the old overlay drawer off */
+    .sl-mobile-nav { display: none !important; }
+}
