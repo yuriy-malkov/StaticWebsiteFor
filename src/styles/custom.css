@@ -557,3 +557,43 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
         top: -40px;
     }
 }
+
+/* ============ Mobile: slide-down sidebar that pushes content ============ */
+@media (max-width: 768px) {
+    nav.sidebar { position: relative; min-height: var(--header-h-mobile, 72px); }
+
+    /* Sidebar pane lives in normal flow (not overlay) and is collapsed by default */
+    nav.sidebar #starlight__sidebar {
+        position: static !important;
+        width: 100%;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 220ms ease;
+        background: rgba(255,255,255,0.98);
+        border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    @media (prefers-color-scheme: dark) {
+        nav.sidebar #starlight__sidebar {
+            background: rgba(16,16,16,0.98);
+            border-top-color: rgba(255,255,255,0.08);
+        }
+    }
+
+    /* ✅ When the custom element is expanded… (script tag between, so use ~) */
+    nav.sidebar starlight-menu-button[aria-expanded="true"] ~ #starlight__sidebar {
+        max-height: 80vh;     /* pushes .main-frame down */
+        overflow: auto;
+    }
+
+    /* ✅ Fallback: if only the inner <button> toggles aria-expanded */
+    nav.sidebar starlight-menu-button:has(> button[aria-expanded="true"]) ~ #starlight__sidebar {
+        max-height: 80vh;
+        overflow: auto;
+    }
+
+    /* Optional spacing inside the expanded menu */
+    #starlight__sidebar .sidebar-content { padding-block: .5rem .75rem; }
+
+    /* Keep the old overlay drawer off */
+    .sl-mobile-nav { display: none !important; }
+}
