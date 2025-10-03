@@ -6,7 +6,15 @@ description: Overview of all ingredients we use.
 > Browse each ingredient below for benefits and tips.
 
 import IngredientsIndex from '../../../components/IngredientsIndex.astro'
+import IngredientsMobileAccordion from '../../../components/IngredientsMobileAccordion.astro'
 
-{/* Mobile-only quick index of all ingredient pages */}
-<IngredientsIndex />
+{/* Mobile: inline expand/collapse */}
+<IngredientsMobileAccordion />
 
+{/* Desktop: grid of links to dedicated pages */}
+
+[//]: # (<div class="ingredients-index-desktop">)
+
+[//]: # (    <IngredientsIndex />)
+
+[//]: # (</div>)
