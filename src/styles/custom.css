@@ -332,7 +332,7 @@ header .sl-site-title.brand img {
         --logo-h-mobile:   66px;   /* logo image height */
 
         /* Extra space between header and first row of content */
-        --mobile-top-gap:  6px;    /* increase/decrease to taste */
+        --mobile-top-gap:  -26px;    /* increase/decrease to taste */
     }
 
     /* Header block (mobile scrolls away with content) */
@@ -362,7 +362,7 @@ header .sl-site-title.brand img {
 
 /* Mobile: control the gap between header and first row */
 @media (max-width: 768px) {
-    .main-frame { padding-top: 8px; } /* tweak to taste */
+    .main-frame { padding-top: 80px; } /* tweak to taste */
 }
 
 /* Desktop: avoid double-offset if you’re already padding <main> */
@@ -604,4 +604,50 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 }
 @media (min-width: 769px) {
     .ingredients-index-desktop { display: block; }
+}
+
+
+/* ===== Mobile: sidebar height = 0 when hidden ===== */
+@media (max-width: 768px) {
+    /* The <nav class="sidebar …"> should not reserve space by itself */
+    nav.sidebar {
+        position: relative;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    /* The pane lives in normal flow but is collapsed by default */
+    nav.sidebar #starlight__sidebar {
+        position: static !important;
+        width: 100%;
+        max-height: 0;                /* <-- collapses to 0 height */
+        overflow: hidden;
+        margin: 0;
+        padding: 0;                   /* no padding while collapsed */
+        transition: max-height 220ms ease;
+    }
+
+    /* Optional: trim inner padding so height truly hits 0 */
+    nav.sidebar #starlight__sidebar .sidebar-content {
+        padding-block: 0;
+    }
+    nav.sidebar #starlight__sidebar .top-level {      /* your <ul> */
+        margin: 0;                                      /* kill default list margin */
+    }
+
+    /* Expand when the toggle is open (script tag sits between → use ~) */
+    nav.sidebar starlight-menu-button[aria-expanded="true"] ~ #starlight__sidebar,
+    nav.sidebar starlight-menu-button:has(> button[aria-expanded="true"]) ~ #starlight__sidebar {
+        max-height: calc(100vh - var(--header-h-mobile, 72px));  /* pushes content down */
+        overflow: auto;                                          /* scroll inside if tall */
+        padding-block: .5rem;                                    /* add padding only when open */
+    }
+}
+
+@media (max-width: 768px) {
+.main-frame {
+    padding-top: 0px;
+}
 }
