@@ -13,7 +13,8 @@ export default defineConfig({
             sidebar: [
                 { label: 'Home', link: '/' },
                 { label: 'Ingredients', slug: 'ingredients/list' },
-                { label: 'How to Cook', link: 'how-to/cook' }
+                { label: 'How to Cook', link: 'how-to/cook' },
+                { label: 'Shop', link: 'shop/shop' }
             ],
             components: {
                 SiteTitle: './src/components/SiteTitle.astro',
