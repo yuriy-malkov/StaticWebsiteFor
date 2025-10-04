@@ -1,0 +1,41 @@
+---
+export interface Props {
+    href?: string;        // store link
+    logoSrc: string;      // /logos/amazon.svg
+    logoAlt: string;      // "Amazon"
+    label: string;        // "Buy on Amazon"
+    comingSoon?: boolean; // disables link if true
+}
+
+const { href, logoSrc, logoAlt, label, comingSoon = false } = Astro.props;
+const isLink = !!(href && !comingSoon);
+---
+
+<div class="store-card">
+    <img class="store-logo" src={logoSrc} alt={logoAlt} loading="lazy" decoding="async" />
+    <div class="store-body">
+        <p class="store-name">{logoAlt}</p>
+
+        {isLink ? (
+                <a
+                        class="store-cta"
+                        href={href}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        aria-label={label}
+                >
+                    {label}
+                </a>
+        ) : (
+            /* same element (<a>) but aria-disabled + no href */
+                <a
+                        class="store-cta disabled"
+                        aria-disabled="true"
+                        role="link"
+                        tabindex="-1"
+                >
+                    Coming soon
+                </a>
+        )}
+    </div>
+</div>

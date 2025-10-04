@@ -27,7 +27,7 @@ body::before {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.92));
+    /*background: linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.92));*/
     z-index: -1;
 }
 @media (prefers-color-scheme: dark) {
@@ -428,7 +428,9 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     header.header,
     header.header[role="banner"],
     header.sl-nav {
-        background: rgba(255, 255, 255, 0.98) !important; /* solid/light bg */
+        /*background: rgba(255, 255, 255, 0.98) !important; !* solid/light bg *!*/
+        color: currentColor;           /* inherits header/nav color */
+        background: transparent;
         backdrop-filter: blur(6px);                        /* optional: frosted look */
         -webkit-backdrop-filter: blur(6px);
         isolation: isolate;                                /* keep it on top */
@@ -489,23 +491,40 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     }
 }
 
-
-/* Show only the correct icon on the mobile menu button */
+/* Mobile: hamburger = three lines only (no circle), always the same icon */
 @media (max-width: 768px) {
-    /* default (menu closed) → show hamburger, hide X */
-    nav.sidebar starlight-menu-button > button .open-menu { display: inline-block; }
-    nav.sidebar starlight-menu-button > button .close-menu { display: none; }
+    /* Show only the hamburger; never show the X */
+    nav.sidebar starlight-menu-button > button .open-menu { display: inline-block !important; }
+    nav.sidebar starlight-menu-button > button .close-menu { display: none !important; }
+    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .open-menu { display: inline-block !important; }
 
-    /* when menu is open (aria-expanded=true) → show X, hide hamburger */
-    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .open-menu { display: none; }
-    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .close-menu { display: inline-block; }
-
-    /* optional: consistent sizing & touch target */
-    nav.sidebar starlight-menu-button > button svg { width: 24px; height: 24px; }
+    /* Remove circular background/border/shadow from the button */
     nav.sidebar starlight-menu-button > button {
-        color: currentColor;           /* inherits header/nav color */
-        background: transparent;
-        border: 0;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        width: 44px; height: 44px;            /* comfy touch target */
+        display: inline-flex; align-items: center; justify-content: center;
+        color: currentColor;                   /* keep icon color from header/nav */
+    }
+
+    /* Keep the SVG a clean size */
+    nav.sidebar starlight-menu-button > button svg {
+        width: 24px; height: 24px;
+    }
+
+    /* Optional: custom (non-circular) focus style for accessibility */
+    nav.sidebar starlight-menu-button > button:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+
+    /* Also neutralize hover/active states that might add a circle */
+    nav.sidebar starlight-menu-button > button:hover,
+    nav.sidebar starlight-menu-button > button:active {
+        background: transparent !important;
     }
 }
 
@@ -650,4 +669,223 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 .main-frame {
     padding-top: 0px;
 }
+}
+
+/*===============*/
+/* ===== Shop grid & cards ===== */
+.shop-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 0.75rem 0 1.25rem;
+}
+
+@media (min-width: 560px) {
+    .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.store-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 0.75rem;
+    /*background: rgba(255,255,255,.9);*/
+}
+
+@media (prefers-color-scheme: dark) {
+    .store-card {
+        border-color: rgba(255,255,255,.14);
+        background: rgba(20,20,20,.85);
+    }
+}
+
+.store-logo {
+    width: 72px; height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.store-body .store-name {
+    margin: 0 0 .4rem 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.store-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem .8rem;
+    border-radius: .6rem;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1px solid currentColor;
+}
+
+.store-cta:hover { text-decoration: none; opacity: .95; }
+.store-cta.disabled {
+    pointer-events: none;
+    opacity: .6;
+    border-style: dashed;
+}
+
+.badge {
+    position: absolute;
+    top: .6rem; right: .6rem;
+    font-size: .7rem; font-weight: 700;
+    padding: .2rem .45rem;
+    border-radius: .45rem;
+    background: color-mix(in oklab, var(--brand-brown, #8B5E34) 16%, white);
+    color: var(--brand-brown, #8B5E34);
+}
+
+
+/*================================*/
+/* ===== Shop cards: equal heights on desktop ===== */
+@media (min-width: 769px) {
+    /* Ensure grid items stretch */
+    .shop-grid { align-items: stretch; }
+
+    /* Make each card fill its grid cell and align content consistently */
+    .store-card {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 72px 1fr; /* logo | content */
+        align-items: center;
+        min-height: 120px;              /* <-- unify card height; tweak if needed */
+    }
+
+    /* Keep the logo centered vertically */
+    .store-logo { align-self: center; }
+
+    /* Stack store name + CTA with steady spacing */
+    .store-body {
+        display: flex;
+        flex-direction: column;
+        gap: .45rem;
+    }
+
+    /* Normalize the CTA block (anchor OR div) to same size */
+    .store-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;               /* consistent button height */
+        line-height: 1;
+        padding: .5rem .8rem;
+    }
+    .store-cta.disabled {
+        /* same padding/height as link, only style differs */
+        pointer-events: none;
+        border-style: dashed;
+    }
+}
+
+
+/*!*======================================*!*/
+/*!* ===== Desktop: vertically center store card contents identically ===== *!*/
+/*@media (min-width: 769px) {*/
+/*    !* Make each card a flex row: [logo] [content], centered vertically *!*/
+/*    .store-card {*/
+/*        display: flex;               !* override any grid from earlier *!*/
+/*        align-items: center;         !* center logo + body on the same midline *!*/
+/*        gap: 0.9rem;*/
+/*        height: 100%;*/
+/*        min-height: 120px;           !* keeps equal card heights *!*/
+/*        padding: 0.9rem 1rem;*/
+/*    }*/
+
+/*    !* Fix logo column width *!*/
+/*    .store-logo {*/
+/*        flex: 0 0 72px;*/
+/*        width: 72px; height: auto;*/
+/*        object-fit: contain;*/
+/*        align-self: center;*/
+/*    }*/
+
+/*    !* Stack name + CTA and center them vertically within the card *!*/
+/*    .store-body {*/
+/*        display: flex;*/
+/*        flex-direction: column;*/
+/*        justify-content: center;     !* <-- key: centers the column in the card *!*/
+/*        gap: 0.45rem;*/
+/*        min-height: 72px;            !* ensures enough room for 2 lines + button *!*/
+/*    }*/
+
+/*    !* Normalize text/button spacing to avoid baseline quirks *!*/
+/*    .store-name { margin: 0; line-height: 1.1; }*/
+/*    .store-body > *:first-child { margin-top: 0; }*/
+/*    .store-cta {*/
+/*        display: inline-flex;*/
+/*        align-items: center;*/
+/*        justify-content: center;*/
+/*        min-height: 40px;*/
+/*        line-height: 1;*/
+/*        padding: .5rem .8rem;*/
+/*    }*/
+/*    .store-cta.disabled { border-style: dashed; pointer-events: none; }*/
+/*}*/
+
+/* Normalize shop cards so both rows align perfectly */
+.shop-grid { align-items: stretch; }
+
+.store-card {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: center;          /* centers logo + body vertically */
+    gap: 0.9rem;
+    height: 100%;
+    min-height: 120px;            /* same height for all cards */
+}
+
+/* Logo column */
+.store-logo {
+    width: 72px; height: auto;
+    object-fit: contain;
+    align-self: center;
+}
+
+/* Text + CTA column */
+.store-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;      /* centers name + button in the card */
+    gap: 0.45rem;
+}
+
+/* Remove stray margins that cause vertical drift */
+.store-name { margin: 0; line-height: 1.15; }
+
+/* Button (anchor in both cases) with identical metrics */
+.store-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: .5rem .8rem;
+    line-height: 1;
+    text-decoration: none;
+    border: 1px solid currentColor;
+    border-radius: .6rem;
+    font-weight: 700;
+}
+.store-cta.disabled {
+    pointer-events: none;
+    opacity: .6;
+    border-style: dashed;
+}
+
+/* Badge stays out of flow; doesn't affect heights */
+.badge {
+    position: absolute;
+    top: .6rem; right: .6rem;
+    font-size: .7rem; font-weight: 700;
+    padding: .2rem .45rem;
+    border-radius: .45rem;
+    background: color-mix(in oklab, var(--brand-brown, #8B5E34) 16%, white);
+    color: var(--brand-brown, #8B5E34);
 }

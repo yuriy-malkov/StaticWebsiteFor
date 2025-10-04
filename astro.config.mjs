@@ -13,11 +13,13 @@ export default defineConfig({
             sidebar: [
                 { label: 'Home', link: '/' },
                 { label: 'Ingredients', slug: 'ingredients/list' },
-                { label: 'How to Cook', link: 'how-to/cook' }
+                { label: 'How to Cook', link: 'how-to/cook' },
+                { label: 'Shop', link: 'shop/online' }
             ],
             components: {
                 SiteTitle: './src/components/SiteTitle.astro',
-                ThemeSelect: './src/components/BlankThemeSelect.astro'
+                ThemeSelect: './src/components/BlankThemeSelect.astro',
+                Pagination: './src/components/BlankPagination.astro'
             },
             customCss: ['./src/styles/custom.css'],
             social: [
