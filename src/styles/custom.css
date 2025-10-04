@@ -491,23 +491,40 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     }
 }
 
-
-/* Show only the correct icon on the mobile menu button */
+/* Mobile: hamburger = three lines only (no circle), always the same icon */
 @media (max-width: 768px) {
-    /* default (menu closed) → show hamburger, hide X */
-    nav.sidebar starlight-menu-button > button .open-menu { display: inline-block; }
-    nav.sidebar starlight-menu-button > button .close-menu { display: none; }
+    /* Show only the hamburger; never show the X */
+    nav.sidebar starlight-menu-button > button .open-menu { display: inline-block !important; }
+    nav.sidebar starlight-menu-button > button .close-menu { display: none !important; }
+    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .open-menu { display: inline-block !important; }
 
-    /* when menu is open (aria-expanded=true) → show X, hide hamburger */
-    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .open-menu { display: none; }
-    nav.sidebar starlight-menu-button > button[aria-expanded="true"] .close-menu { display: inline-block; }
-
-    /* optional: consistent sizing & touch target */
-    nav.sidebar starlight-menu-button > button svg { width: 24px; height: 24px; }
+    /* Remove circular background/border/shadow from the button */
     nav.sidebar starlight-menu-button > button {
-        color: currentColor;           /* inherits header/nav color */
-        background: transparent;
-        border: 0;
+        background: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        width: 44px; height: 44px;            /* comfy touch target */
+        display: inline-flex; align-items: center; justify-content: center;
+        color: currentColor;                   /* keep icon color from header/nav */
+    }
+
+    /* Keep the SVG a clean size */
+    nav.sidebar starlight-menu-button > button svg {
+        width: 24px; height: 24px;
+    }
+
+    /* Optional: custom (non-circular) focus style for accessibility */
+    nav.sidebar starlight-menu-button > button:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+
+    /* Also neutralize hover/active states that might add a circle */
+    nav.sidebar starlight-menu-button > button:hover,
+    nav.sidebar starlight-menu-button > button:active {
+        background: transparent !important;
     }
 }
 
