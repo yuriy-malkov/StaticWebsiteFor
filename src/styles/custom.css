@@ -693,7 +693,7 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     padding: 0.9rem 1rem;
     border: 1px solid rgba(0,0,0,.12);
     border-radius: 0.75rem;
-    background: rgba(255,255,255,.9);
+    /*background: rgba(255,255,255,.9);*/
 }
 
 @media (prefers-color-scheme: dark) {
@@ -733,6 +733,153 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     border-style: dashed;
 }
 
+.badge {
+    position: absolute;
+    top: .6rem; right: .6rem;
+    font-size: .7rem; font-weight: 700;
+    padding: .2rem .45rem;
+    border-radius: .45rem;
+    background: color-mix(in oklab, var(--brand-brown, #8B5E34) 16%, white);
+    color: var(--brand-brown, #8B5E34);
+}
+
+
+/*================================*/
+/* ===== Shop cards: equal heights on desktop ===== */
+@media (min-width: 769px) {
+    /* Ensure grid items stretch */
+    .shop-grid { align-items: stretch; }
+
+    /* Make each card fill its grid cell and align content consistently */
+    .store-card {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 72px 1fr; /* logo | content */
+        align-items: center;
+        min-height: 120px;              /* <-- unify card height; tweak if needed */
+    }
+
+    /* Keep the logo centered vertically */
+    .store-logo { align-self: center; }
+
+    /* Stack store name + CTA with steady spacing */
+    .store-body {
+        display: flex;
+        flex-direction: column;
+        gap: .45rem;
+    }
+
+    /* Normalize the CTA block (anchor OR div) to same size */
+    .store-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;               /* consistent button height */
+        line-height: 1;
+        padding: .5rem .8rem;
+    }
+    .store-cta.disabled {
+        /* same padding/height as link, only style differs */
+        pointer-events: none;
+        border-style: dashed;
+    }
+}
+
+
+/*!*======================================*!*/
+/*!* ===== Desktop: vertically center store card contents identically ===== *!*/
+/*@media (min-width: 769px) {*/
+/*    !* Make each card a flex row: [logo] [content], centered vertically *!*/
+/*    .store-card {*/
+/*        display: flex;               !* override any grid from earlier *!*/
+/*        align-items: center;         !* center logo + body on the same midline *!*/
+/*        gap: 0.9rem;*/
+/*        height: 100%;*/
+/*        min-height: 120px;           !* keeps equal card heights *!*/
+/*        padding: 0.9rem 1rem;*/
+/*    }*/
+
+/*    !* Fix logo column width *!*/
+/*    .store-logo {*/
+/*        flex: 0 0 72px;*/
+/*        width: 72px; height: auto;*/
+/*        object-fit: contain;*/
+/*        align-self: center;*/
+/*    }*/
+
+/*    !* Stack name + CTA and center them vertically within the card *!*/
+/*    .store-body {*/
+/*        display: flex;*/
+/*        flex-direction: column;*/
+/*        justify-content: center;     !* <-- key: centers the column in the card *!*/
+/*        gap: 0.45rem;*/
+/*        min-height: 72px;            !* ensures enough room for 2 lines + button *!*/
+/*    }*/
+
+/*    !* Normalize text/button spacing to avoid baseline quirks *!*/
+/*    .store-name { margin: 0; line-height: 1.1; }*/
+/*    .store-body > *:first-child { margin-top: 0; }*/
+/*    .store-cta {*/
+/*        display: inline-flex;*/
+/*        align-items: center;*/
+/*        justify-content: center;*/
+/*        min-height: 40px;*/
+/*        line-height: 1;*/
+/*        padding: .5rem .8rem;*/
+/*    }*/
+/*    .store-cta.disabled { border-style: dashed; pointer-events: none; }*/
+/*}*/
+
+/* Normalize shop cards so both rows align perfectly */
+.shop-grid { align-items: stretch; }
+
+.store-card {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: center;          /* centers logo + body vertically */
+    gap: 0.9rem;
+    height: 100%;
+    min-height: 120px;            /* same height for all cards */
+}
+
+/* Logo column */
+.store-logo {
+    width: 72px; height: auto;
+    object-fit: contain;
+    align-self: center;
+}
+
+/* Text + CTA column */
+.store-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;      /* centers name + button in the card */
+    gap: 0.45rem;
+}
+
+/* Remove stray margins that cause vertical drift */
+.store-name { margin: 0; line-height: 1.15; }
+
+/* Button (anchor in both cases) with identical metrics */
+.store-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: .5rem .8rem;
+    line-height: 1;
+    text-decoration: none;
+    border: 1px solid currentColor;
+    border-radius: .6rem;
+    font-weight: 700;
+}
+.store-cta.disabled {
+    pointer-events: none;
+    opacity: .6;
+    border-style: dashed;
+}
+
+/* Badge stays out of flow; doesn't affect heights */
 .badge {
     position: absolute;
     top: .6rem; right: .6rem;
