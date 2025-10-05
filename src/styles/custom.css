@@ -834,6 +834,7 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 .shop-grid { align-items: stretch; }
 
 .store-card {
+    margin: 0 !important;
     display: grid;
     grid-template-columns: 72px 1fr;
     align-items: center;          /* centers logo + body vertically */
@@ -888,4 +889,57 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
     border-radius: .45rem;
     background: color-mix(in oklab, var(--brand-brown, #8B5E34) 16%, white);
     color: var(--brand-brown, #8B5E34);
+}
+
+
+/*==========================================*/
+/* ===== Ingredients accordion: unify card colors with site ===== */
+:root {
+    /*--panel-bg: rgb(253, 0, 250);*/
+    --panel-bg: transparent;
+    /*--panel-bg-strong: rgba(255,255,255,.96);*/
+    --panel-bg-strong: transparent;
+    --panel-border:    rgba(0,0,0,.12);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --panel-bg:        rgba(20,20,20,.85);
+        --panel-bg-strong: rgba(20,20,20,.92);
+        --panel-border:    rgba(255,255,255,.14);
+    }
+}
+
+/* Summary “chip” */
+.ingredients-accordion .ing-item summary {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--panel-border) !important;
+    color: var(--sl-color-text) !important;
+    border-radius: .6rem;
+    padding: .6rem .8rem;
+}
+
+/* Open state keeps same palette, just a touch stronger */
+.ingredients-accordion .ing-item[open] summary {
+    background: var(--panel-bg-strong) !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Body panel */
+.ingredients-accordion .ing-body {
+    background: var(--panel-bg) !important;
+    border: 1px solid var(--panel-border) !important;
+    border-top: 0 !important;
+    border-bottom-left-radius: .6rem;
+    border-bottom-right-radius: .6rem;
+    padding: .75rem .9rem;
+    color: var(--sl-color-text);
+}
+
+/* Tweak “anchor” icon color inside headings to match brand */
+.ingredients-accordion .ing-body .sl-anchor-link {
+    color: var(--brand-brown);  /* your accent */
+}
+.ingredients-accordion .ing-body .sl-anchor-link:hover {
+    opacity: .9;
 }
