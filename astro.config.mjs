@@ -10,6 +10,9 @@ export default defineConfig({
             description: 'Simple, wholesome overnight oats.',
             pagefind: false,
             tableOfContents: false,
+            head: [
+                { tag: 'link', attrs: { rel: 'icon', href: '/public/favicon.svg', type: 'image/svg+xml' } },
+            ],
             sidebar: [
                 { label: 'Home', link: '/' },
                 { label: 'Ingredients', slug: 'ingredients/list' },
