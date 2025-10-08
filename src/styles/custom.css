@@ -5,9 +5,9 @@ html, body { min-height: 100%; }
 
 body {
     /* If the file is in /public, reference it as /background.svg */
-    background-image: url('/public/background.svg');
+    background-image: url('/public/mask_group.svg');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto;
     background-position: center top;
     background-attachment: fixed; /* desktop only; disabled on mobile below */
 }
@@ -46,7 +46,32 @@ body::before {
     --sl-color-accent: var(--brand-brown);
     --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 85%, black);
     --sl-color-text-accent: var(--brand-brown);
+    --bg-base: #FEF4E8;
 }
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2; /* behind everything */
+    background:
+            var(--bg-base)
+            url("/public/mask_group.svg")
+            center top / cover
+            no-repeat;
+}
+
+@media (min-width: 769px) {
+    body::after {
+        background-size: clamp(900px, 70vw, 1400px) auto;
+        background-position: center top;
+        background-repeat: no-repeat;
+        /*background-size: contain;*/
+        /*background-position: center top;*/
+        /*background-repeat: no-repeat;*/
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --sl-color-accent: color-mix(in oklab, var(--brand-brown) 80%, white);
