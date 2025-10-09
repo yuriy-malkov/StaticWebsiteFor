@@ -9,23 +9,18 @@ Quinoa (pronounced **KEEN-wah**) is often called an ancient grain, though it’s
 
 1. **May help regulate blood sugar**  
    Its fiber + protein combo can slow glucose release and improve post-meal blood sugar control.  
-   – Source: [Healthline](https://www.healthline.com/nutrition/quinoa#benefits)
 
 2. **May aid weight management**  
    Higher protein and fiber promote satiety, which can help reduce overall calorie intake.  
-   – Source: [Healthline](https://www.healthline.com/nutrition/quinoa#benefits)
 
 3. **Complete plant protein**  
    Contains all nine essential amino acids—valuable for vegetarian and vegan diets.  
-   – Source: [WebMD](https://www.webmd.com/diet/health-benefits-quinoa)
 
 4. **Supports digestion**  
    ~5g fiber per cooked cup helps regularity and a healthy gut environment.  
-   – Source: [Medical News Today](https://www.medicalnewstoday.com/articles/274745)
 
 5. **Rich in micronutrients**  
    Notable for magnesium, iron, and B vitamins that support energy metabolism and muscle/nerve function.  
-   – Source: [Mayo Clinic – Whole grains](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/whole-grains/art-20047826)
 
 ## Summary
 Quinoa is a versatile, **gluten-free** seed with a standout nutrition profile: **complete protein, ample fiber, and key minerals**. It can support blood sugar control and satiety while adding variety to everyday meals.

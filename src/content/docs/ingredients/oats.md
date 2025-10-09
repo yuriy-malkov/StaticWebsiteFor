@@ -11,15 +11,12 @@ Because of their impressive nutrient profile, oats have attracted interest among
 
 - **May lower cholesterol and reduce heart disease risk**  
   The beta-glucan fiber found in oats helps lower “bad” LDL cholesterol levels, which in turn may reduce the risk of heart disease.  
-  – Source: [Healthline](https://www.healthline.com/nutrition/foods/oats#benefits) • See also: [WebMD](https://www.webmd.com/diet/health-benefits-oatmeal)
 
 - **May help regulate blood sugar and prevent type 2 diabetes**  
   Oats’ soluble fiber helps slow digestion and can stabilize blood sugar levels. Regular consumption of oatmeal has been shown to improve insulin sensitivity and lower blood sugar.  
-  – Source: [Medical News Today](https://www.medicalnewstoday.com/articles/270680)
 
 - **Promotes fullness and may support weight management**  
   High in fiber, oats help you feel full longer, which may naturally reduce overall calorie intake.  
-  – Source: [Mayo Clinic – High-fiber foods](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/high-fiber-foods/art-20050948)
 
 - **Naturally gluten-free (but watch for cross-contamination)**  
   Oats themselves do not contain gluten; however, they’re often processed in the same facilities as wheat, barley, or rye. If you have celiac disease or a strict gluten sensitivity, choose oats labeled “gluten-free.”

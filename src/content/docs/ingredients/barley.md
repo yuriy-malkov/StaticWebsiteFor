@@ -9,26 +9,19 @@ A standout component of barley is **beta-glucan**, a type of soluble fiber linke
 
 ## Key Points
 
-- **May help lower blood sugar and insulin levels**  
+1. **May help lower blood sugar and insulin levels**  
   Barley’s soluble fiber slows sugar absorption, promoting steadier blood glucose levels.  
-  – See: [Healthline](https://www.healthline.com/nutrition/barley#blood-sugar), [WebMD](https://www.webmd.com/food-recipes/barley-the-new-brown-rice)
 
-- **May improve digestion**  
+2. **May improve digestion**  
   Both soluble and insoluble fiber support bowel regularity and overall gut health.  
-  – See: [Medical News Today](https://www.medicalnewstoday.com/articles/270759), [Healthline](https://www.healthline.com/nutrition/barley#digestion)
-
-- **May aid weight management**  
+3. **May aid weight management**  
   High fiber (especially beta-glucan) increases satiety, which can help reduce overall calorie intake.  
-  – See: [Healthline](https://www.healthline.com/nutrition/barley#other-benefits), [WebMD](https://www.webmd.com/food-recipes/barley-the-new-brown-rice)
 
-- **May help lower cholesterol**  
+4. **May help lower cholesterol**  
   Beta-glucan can bind cholesterol-rich bile acids in the gut, aiding their removal and supporting heart health.  
-  – See: [Medical News Today](https://www.medicalnewstoday.com/articles/270759), [Healthline](https://www.healthline.com/nutrition/barley#cholesterol)
 
 ## Summary
 Barley is high in fiber—particularly beta-glucan—which may help lower cholesterol and blood sugar levels. It may also assist with weight management and digestive health, making it a versatile and nutritious grain for everyday cooking.
 
 ## References
 1. [Healthline – Barley](https://www.healthline.com/nutrition/barley)
-2. [WebMD – All About Barley](https://www.webmd.com/food-recipes/barley-the-new-brown-rice)
-3. [Medical News Today – Barley Health Benefits](https://www.medicalnewstoday.com/articles/270759)

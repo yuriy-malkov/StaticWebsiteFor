@@ -28,5 +28,3 @@ Amaranth is a versatile, gluten-free seed offering **protein**, **fiber**, and p
 ## References
 1. [Healthline – Amaranth Health Benefits](https://www.healthline.com/nutrition/amaranth-health-benefits)
 2. [WebMD – What to Know About Amaranth](https://www.webmd.com/diet/health-benefits-amaranth)
-3. [Medical News Today – Health Benefits of Amaranth](https://www.medicalnewstoday.com/articles/316079)
-4. [Mayo Clinic – High-Fiber Foods](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/cholesterol/faq-20058452)
