@@ -5,9 +5,9 @@ html, body { min-height: 100%; }
 
 body {
     /* If the file is in /public, reference it as /background.svg */
-    background-image: url('/public/background.svg');
+    background-image: url('/public/mask_group.svg');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto;
     background-position: center top;
     background-attachment: fixed; /* desktop only; disabled on mobile below */
 }
@@ -46,7 +46,32 @@ body::before {
     --sl-color-accent: var(--brand-brown);
     --sl-color-accent-high: color-mix(in oklab, var(--brand-brown) 85%, black);
     --sl-color-text-accent: var(--brand-brown);
+    --bg-base: #FEF4E8;
 }
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2; /* behind everything */
+    background:
+            var(--bg-base)
+            url("/public/mask_group.svg")
+            center top / cover
+            no-repeat;
+}
+
+@media (min-width: 769px) {
+    body::after {
+        background-size: clamp(900px, 70vw, 1400px) auto;
+        background-position: center top;
+        background-repeat: no-repeat;
+        /*background-size: contain;*/
+        /*background-position: center top;*/
+        /*background-repeat: no-repeat;*/
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --sl-color-accent: color-mix(in oklab, var(--brand-brown) 80%, white);
@@ -422,31 +447,6 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 }
 
 
-/*SOLID HEADER*/
-/* Desktop: make the fixed header opaque so content is hidden underneath */
-@media (min-width: 769px) {
-    header.header,
-    header.header[role="banner"],
-    header.sl-nav {
-        /*background: rgba(255, 255, 255, 0.98) !important; !* solid/light bg *!*/
-        color: currentColor;           /* inherits header/nav color */
-        background: transparent;
-        backdrop-filter: blur(6px);                        /* optional: frosted look */
-        -webkit-backdrop-filter: blur(6px);
-        isolation: isolate;                                /* keep it on top */
-        z-index: 999999;                                   /* ensure top layer */
-    }
-
-    /* Dark mode variant */
-    @media (prefers-color-scheme: dark) {
-        header.header,
-        header.header[role="banner"],
-        header.sl-nav {
-            background: rgba(16, 16, 16, 0.98) !important;
-        }
-    }
-}
-
 /* ============ Mobile: center the hamburger inside <nav.sidebar> ============ */
 @media (max-width: 768px) {
     :root {
@@ -476,19 +476,6 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 
     /* Keep the SVGs centered in the button */
     nav.sidebar starlight-menu-button > button svg { display: block; }
-}
-
-/* =========================
-   Keep hamburger hidden on DESKTOP
-   ========================= */
-@media (min-width: 769px) {
-    header button[aria-label="Menu"],
-    button[aria-controls="starlight__sidebar"],
-    .sl-nav-toggle,
-    summary.sl-nav-toggle,
-    .sl-mobile-nav {
-        display: none !important;
-    }
 }
 
 /* Mobile: hamburger = three lines only (no circle), always the same icon */
@@ -786,50 +773,6 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 }
 
 
-/*!*======================================*!*/
-/*!* ===== Desktop: vertically center store card contents identically ===== *!*/
-/*@media (min-width: 769px) {*/
-/*    !* Make each card a flex row: [logo] [content], centered vertically *!*/
-/*    .store-card {*/
-/*        display: flex;               !* override any grid from earlier *!*/
-/*        align-items: center;         !* center logo + body on the same midline *!*/
-/*        gap: 0.9rem;*/
-/*        height: 100%;*/
-/*        min-height: 120px;           !* keeps equal card heights *!*/
-/*        padding: 0.9rem 1rem;*/
-/*    }*/
-
-/*    !* Fix logo column width *!*/
-/*    .store-logo {*/
-/*        flex: 0 0 72px;*/
-/*        width: 72px; height: auto;*/
-/*        object-fit: contain;*/
-/*        align-self: center;*/
-/*    }*/
-
-/*    !* Stack name + CTA and center them vertically within the card *!*/
-/*    .store-body {*/
-/*        display: flex;*/
-/*        flex-direction: column;*/
-/*        justify-content: center;     !* <-- key: centers the column in the card *!*/
-/*        gap: 0.45rem;*/
-/*        min-height: 72px;            !* ensures enough room for 2 lines + button *!*/
-/*    }*/
-
-/*    !* Normalize text/button spacing to avoid baseline quirks *!*/
-/*    .store-name { margin: 0; line-height: 1.1; }*/
-/*    .store-body > *:first-child { margin-top: 0; }*/
-/*    .store-cta {*/
-/*        display: inline-flex;*/
-/*        align-items: center;*/
-/*        justify-content: center;*/
-/*        min-height: 40px;*/
-/*        line-height: 1;*/
-/*        padding: .5rem .8rem;*/
-/*    }*/
-/*    .store-cta.disabled { border-style: dashed; pointer-events: none; }*/
-/*}*/
-
 /* Normalize shop cards so both rows align perfectly */
 .shop-grid { align-items: stretch; }
 
@@ -943,3 +886,91 @@ main:has(> .sl-container .sl-content > [data-hide-title]) .sl-content > :first-c
 .ingredients-accordion .ing-body .sl-anchor-link:hover {
     opacity: .9;
 }
+
+
+/*===================================*/
+/* Remove the header/body separating line on both desktop & mobile */
+header.header,
+header.header[role="banner"],
+header.sl-nav,
+nav.sidebar {
+    border: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Some themes draw the line with a pseudo-element */
+header.header::after,
+header.header[role="banner"]::after,
+header.sl-nav::after {
+    content: none !important;
+}
+
+/* If your expanded mobile menu adds a top border, kill it too */
+@media (max-width: 768px) {
+    #starlight__sidebar,
+    .sl-mobile-nav,
+    .sl-mobile-nav .panel {
+        border-top: 0 !important;
+        box-shadow: none !important;
+    }
+}
+
+/*==========================*/
+/* Hide Markdown horizontal rules everywhere */
+.sl-content .sl-markdown hr,
+.sl-content hr,
+.sl-markdown hr {
+    display: none !important;
+    border: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/*===================================*/
+/* Desktop: center the header logo over the sidebar column */
+@media (min-width: 769px) {
+    :root {
+        /* Starlight exposes --sl-sidebar-width (typically 18rem on desktop).
+           Fall back to 18rem if the var isn't present. */
+        --sidebar-w: var(--sl-sidebar-width, 18rem);
+    }
+
+    /* Position the logo absolutely in the header and center it over the sidebar */
+    header .sl-site-title.brand {
+        position: absolute;               /* take out of normal flow */
+        left: calc(var(--sidebar-w) / 2); /* halfway across the sidebar */
+        top: 50%;                          /* vertical center of header */
+        transform: translate(-50%, -50%);  /* center on that point */
+        margin: 0;
+        z-index: 1500;
+    }
+}
+
+/* Mobile: keep your current centered-in-header behavior */
+@media (max-width: 768px) {
+    header .sl-site-title.brand {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+
+/*==============================*/
+/* Pill inside headings — color comes from inline --pill var */
+.sl-content .sl-heading-wrapper h2 .hb,
+.sl-content h2 .hb,
+.sl-content :is(h1,h2,h3,h4) .hb {
+    --pill: #6A1B9A;                 /* fallback */
+    display: inline-block;
+    background: var(--pill) !important;
+    color: #fff !important;
+    padding: .12em .45em;
+    border-radius: .4em;
+    line-height: 1;
+}
+
+/* Keep the little anchor icon from crowding the pill */
+.sl-heading-wrapper .sl-anchor-link { margin-left: .35rem; }

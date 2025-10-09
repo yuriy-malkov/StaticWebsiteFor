@@ -17,7 +17,8 @@ export default defineConfig({
                 { label: 'Home', link: '/' },
                 { label: 'Ingredients', slug: 'ingredients/list' },
                 { label: 'How to Cook', link: 'how-to/cook' },
-                { label: 'Shop', link: 'shop/online' }
+                { label: 'Shop', link: 'shop/online' },
+                { label: 'About Us', link: 'about/us' }
             ],
             components: {
                 SiteTitle: './src/components/SiteTitle.astro',

@@ -11,19 +11,15 @@ Beyond sprinkling on cereal or salads, **ground flax** (flaxseed meal) is popula
 
 1. **May support weight management**  
    Fiber and healthy fats promote fullness and may reduce overall calorie intake.  
-   – See: [Healthline](https://www.healthline.com/nutrition/foods/flaxseeds#weight-loss)
 
 2. **Promotes heart health**  
    Omega-3s (ALA), lignans, and fiber are associated with improved heart markers.  
-   – See: [Healthline](https://www.healthline.com/nutrition/foods/flaxseeds#heart-health), [Medical News Today](https://www.medicalnewstoday.com/articles/266693)
 
 3. **May help regulate blood pressure & cholesterol**  
    Regular intake is linked with healthier BP and improved cholesterol profiles.  
-   – See: [WebMD](https://www.webmd.com/diet/health-benefits-flaxseed)
 
 4. **Supports digestion**  
    Soluble + insoluble fiber can help relieve constipation and support regularity.  
-   – See: [Healthline](https://www.healthline.com/nutrition/foods/flaxseeds#benefits), [Mayo Clinic](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/flaxseed/faq-20058354)
 
 ## Summary
 Flax seeds are a versatile, nutrient-dense addition to meals. Evidence links them with benefits for **heart health**, **blood pressure and cholesterol**, **digestion**, and **satiety**. For best results, choose **ground flax** to aid digestion and nutrient uptake.
@@ -31,5 +27,4 @@ Flax seeds are a versatile, nutrient-dense addition to meals. Evidence links the
 ## References
 1. [Healthline – Flax Seeds](https://www.healthline.com/nutrition/foods/flaxseeds)
 2. [WebMD – Flaxseed: Health Benefits](https://www.webmd.com/diet/health-benefits-flaxseed)
-3. [Medical News Today – Flaxseed: Health Benefits](https://www.medicalnewstoday.com/articles/266693)
-4. [Mayo Clinic – Flaxseed: Is ground better than whole?](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/flaxseed/faq-20058354)
+3. [Mayo Clinic – Flaxseed: Is ground better than whole?](https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/flaxseed/faq-20058354)
