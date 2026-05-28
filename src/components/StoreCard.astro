@@ -29,12 +29,13 @@ const isLink = !!(href && !comingSoon);
         ) : (
             /* same element (<a>) but aria-disabled + no href */
                 <a
-                        class="store-cta disabled"
-                        aria-disabled="true"
-                        role="link"
-                        tabindex="-1"
+                        class="store-cta"
+                        href={href}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        aria-label={label}
                 >
-                    Coming soon
+                    {label}
                 </a>
         )}
     </div>
